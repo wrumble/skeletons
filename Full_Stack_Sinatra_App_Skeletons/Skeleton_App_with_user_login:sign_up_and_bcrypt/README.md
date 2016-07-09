@@ -11,7 +11,7 @@ rake db:auto_migrate RACK_ENV=test
 rake db:auto_upgrade
 rake db:auto_upgrade RACK_ENV=test
 rspec
-,,,
+```
 
 You should see all tests passing.
 
