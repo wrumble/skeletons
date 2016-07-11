@@ -22,12 +22,10 @@ namespace :helper do
     if db_exists
       puts "WARNING: at least one database with the given name already exists, use $rake helper:drop_db if you want to remove them"
     else
-      print "Creating skeleton_app_development database..."
-      `psql -c 'CREATE DATABASE skeleton_app_development'`
-      puts "Done."
-      print "Creating skeleton_app_test database..."
-      `psql -c 'CREATE DATABASE skeleton_app_test'`
-      puts "Done."
+      create_db 'development'
+      # migrate_db 'development'
+      create_db 'test'
+      # migrate_db 'test'
     end
   end
 
@@ -45,4 +43,10 @@ end
 def db_exists
   `psql -c "SELECT 1 FROM pg_database WHERE datname = 'skeleton_app_test'"`.include? '1' or
   `psql -c "SELECT 1 FROM pg_database WHERE datname = 'skeleton_app_development'"`.include? '1'
+end
+
+def create_db env
+  print "Creating skeleton_app_#{env} database..."
+  `psql -c 'CREATE DATABASE skeleton_app_#{env}'`
+  puts "Done."
 end
