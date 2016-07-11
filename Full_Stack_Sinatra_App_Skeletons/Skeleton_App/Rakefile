@@ -17,15 +17,15 @@ namespace :db do
 end
 
 namespace :helper do
-  desc "Database creation helper"
-  task :create_db do
+  desc "Database creation and setup helper"
+  task :setup_db do
     if db_exists
       puts "WARNING: at least one database with the given name already exists, use $rake helper:drop_db if you want to remove them"
     else
       create_db 'development'
-      # migrate_db 'development'
+      migrate_db 'development'
       create_db 'test'
-      # migrate_db 'test'
+      migrate_db 'test'
     end
   end
 
@@ -48,5 +48,13 @@ end
 def create_db env
   print "Creating skeleton_app_#{env} database..."
   `psql -c 'CREATE DATABASE skeleton_app_#{env}'`
+  puts "Done."
+end
+
+def migrate_db env
+  print "Migrating skeleton_app_#{env} tables..."
+  DataMapper.setup :default, "postgres://localhost/skeleton_app_#{env}"
+  DataMapper.finalize
+  DataMapper.auto_migrate!
   puts "Done."
 end
