@@ -31,18 +31,20 @@ namespace :helper do
 
   desc "Database dropping helper"
   task :drop_db do
-    print "Dropping skeleton_app_development database..."
-    `psql -c 'DROP DATABASE skeleton_app_development'`
-    puts "Done."
-    print "Dropping skeleton_app_test database..."
-    `psql -c 'DROP DATABASE skeleton_app_test'`
-    puts "Done."
+    drop_db 'development'
+    drop_db 'test'
   end
 end
 
 def db_exists
   `psql -c "SELECT 1 FROM pg_database WHERE datname = 'skeleton_app_test'"`.include? '1' or
   `psql -c "SELECT 1 FROM pg_database WHERE datname = 'skeleton_app_development'"`.include? '1'
+end
+
+def drop_db env
+  print "Dropping skeleton_app_#{env} database..."
+  `psql -c 'DROP DATABASE skeleton_app_#{env}'`
+  puts "Done."
 end
 
 def create_db env
