@@ -16,14 +16,24 @@ namespace :db do
   end
 end
 
-namespace :init do
-  desc "First Time Database Setup"
+namespace :helper do
+  desc "Database creation helper"
   task :create_db do
-    p "Creating skeleton_app_development database..."
+    print "Creating skeleton_app_development database..."
     `psql -c 'CREATE DATABASE skeleton_app_development'`
     puts "Done."
-    p "Creating skeleton_app_test database..."
+    print "Creating skeleton_app_test database..."
     `psql -c 'CREATE DATABASE skeleton_app_test'`
+    puts "Done."
+  end
+
+  desc "Database dropping helper"
+  task :drop_db do
+    print "Dropping skeleton_app_development database..."
+    `psql -c 'DROP DATABASE skeleton_app_development'`
+    puts "Done."
+    print "Dropping skeleton_app_test database..."
+    `psql -c 'DROP DATABASE skeleton_app_test'`
     puts "Done."
   end
 end
