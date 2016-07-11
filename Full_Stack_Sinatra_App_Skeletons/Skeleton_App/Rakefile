@@ -15,3 +15,15 @@ namespace :db do
     puts "Auto-migrate complete (data was lost), Wayne Rumble was here. LOL"
   end
 end
+
+namespace :init do
+  desc "First Time Database Setup"
+  task :create_db do
+    p "Creating skeleton_app_development database..."
+    `psql -c 'CREATE DATABASE skeleton_app_development'`
+    puts "Done."
+    p "Creating skeleton_app_test database..."
+    `psql -c 'CREATE DATABASE skeleton_app_test'`
+    puts "Done."
+  end
+end
